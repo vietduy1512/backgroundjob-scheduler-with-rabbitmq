@@ -12,8 +12,7 @@ namespace AppWithScheduler.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.Quote = QuoteOfTheDay.Current.Quote;
-            ViewBag.Author = QuoteOfTheDay.Current.Author;
+            ViewBag.list = QuoteOfTheDay.list;
 
             return View();
         }

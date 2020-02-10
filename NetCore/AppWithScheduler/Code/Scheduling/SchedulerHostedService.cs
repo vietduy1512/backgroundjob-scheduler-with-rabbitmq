@@ -35,6 +35,8 @@ namespace AppWithScheduler.Code.Scheduling
                 await ExecuteOnceAsync(cancellationToken);
                 
                 await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken);
+
+                Console.WriteLine("Check Scheduler");
             }
         }
 
@@ -48,6 +50,8 @@ namespace AppWithScheduler.Code.Scheduling
             foreach (var taskThatShouldRun in tasksThatShouldRun)
             {
                 taskThatShouldRun.Increment();
+
+                Console.WriteLine("Executing");
 
                 await taskFactory.StartNew(
                     async () =>

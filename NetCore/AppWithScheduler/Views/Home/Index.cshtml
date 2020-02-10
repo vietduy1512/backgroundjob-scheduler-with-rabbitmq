@@ -3,8 +3,11 @@
 }
 
 <div class="row">
-  <div class="col-md-12">
-    <blockquote>@ViewBag.Quote</blockquote>
-    @ViewBag.Author
-  </div>
+    <div class="col-md-12">
+        @foreach (var item in ViewBag.list)
+        {
+            <blockquote>@item.Quote</blockquote>
+            @item.Author
+        }
+    </div>
 </div>

@@ -11,7 +11,7 @@ namespace AppWithScheduler.Code
     // uses https://theysaidso.com/api/
     public class QuoteOfTheDayTask : IScheduledTask
     {
-        public string Schedule => "* */6 * * *";
+        public string Schedule => "*/2 * * * *";
         
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
@@ -19,17 +19,17 @@ namespace AppWithScheduler.Code
 
             var quoteJson = JObject.Parse(await httpClient.GetStringAsync("http://quotes.rest/qod.json"));
 
-            QuoteOfTheDay.Current = JsonConvert.DeserializeObject<QuoteOfTheDay>(quoteJson["contents"]["quotes"][0].ToString());
+            QuoteOfTheDay.list.Add(JsonConvert.DeserializeObject<QuoteOfTheDay>(quoteJson["contents"]["quotes"][0].ToString()));
         }
     }
     
     public class QuoteOfTheDay
     {
-        public static QuoteOfTheDay Current { get; set; }
+        public static List<QuoteOfTheDay> list { get; set; }
 
         static QuoteOfTheDay()
         {
-            Current = new QuoteOfTheDay { Quote = "No quote", Author = "Maarten" };
+            list = new List<QuoteOfTheDay> { new QuoteOfTheDay { Quote = "No quote", Author = "Maarten" } };
         }
         
         public string Quote { get; set; }
