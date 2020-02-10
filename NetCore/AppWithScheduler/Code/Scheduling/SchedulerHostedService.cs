@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Cronos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AppWithScheduler.Code.Cron;
 
 namespace AppWithScheduler.Code.Scheduling
 {
@@ -21,7 +21,7 @@ namespace AppWithScheduler.Code.Scheduling
             {
                 _scheduledTasks.Add(new SchedulerTaskWrapper
                 {
-                    Schedule = CrontabSchedule.Parse(scheduledTask.Schedule),
+                    Schedule = CronExpression.Parse(scheduledTask.Schedule),
                     Task = scheduledTask,
                     NextRunTime = referenceTime
                 });
@@ -74,26 +74,6 @@ namespace AppWithScheduler.Code.Scheduling
                         }
                     },
                     cancellationToken);
-            }
-        }
-
-        private class SchedulerTaskWrapper
-        {
-            public CrontabSchedule Schedule { get; set; }
-            public IScheduledTask Task { get; set; }
-
-            public DateTime LastRunTime { get; set; }
-            public DateTime NextRunTime { get; set; }
-
-            public void Increment()
-            {
-                LastRunTime = NextRunTime;
-                NextRunTime = Schedule.GetNextOccurrence(NextRunTime);
-            }
-
-            public bool ShouldRun(DateTime currentTime)
-            {
-                return NextRunTime < currentTime && LastRunTime != NextRunTime;
             }
         }
     }
